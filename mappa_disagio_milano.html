@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>if(/[?&]embed=1/.test(location.search))document.documentElement.className="embed"</script>
 <title>Mappa del disagio socio-economico a Milano</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -722,6 +723,12 @@ footer{padding:7px 14px 9px;font-size:11px;color:var(--mut);border-top:1px solid
 .sug.open{display:block}.sug li{padding:6px 10px;font-size:13px;cursor:pointer;line-height:1.3}.sug li:hover,.sug li.kb{background:#f3efe7}.sug li.hint{color:var(--mut);font-size:11.5px;cursor:default;background:#fff}
 .dd-list{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tt{min-width:0;flex:1 1 auto}.logo{flex:none;width:140px;height:auto;margin-top:-2px}@media(max-width:640px){.logo{width:92px}}@media(max-width:380px){.seg button{padding:8px 7px;font-size:12.5px}}
+html.embed,html.embed body{height:auto}
+html.embed .app{height:auto;min-height:0}
+html.embed .mapwrap{flex:none;min-height:0;height:clamp(440px,68vw,700px)}
+.hint{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);z-index:1100;background:rgba(29,29,27,.9);color:#fff;font-size:12.5px;padding:6px 12px;border-radius:14px;opacity:0;transition:opacity .2s;pointer-events:none;white-space:nowrap}.hint.on{opacity:1}
+@media(max-width:640px){html.embed .mapwrap{height:auto}html.embed #map{height:clamp(340px,95vw,480px)}}
+.leaflet-tile-pane{filter:grayscale(.75) brightness(1.08) contrast(.88)}
 </style>
 </head>
 <body>
@@ -744,9 +751,10 @@ footer{padding:7px 14px 9px;font-size:11px;color:var(--mut);border-top:1px solid
   <div id="map"></div>
   <div class="reset"><button id="reset" type="button">Tutta Italia</button></div>
   <div class="tip" id="tip"></div>
+  <div class="hint" id="hint"></div>
   <div class="legend" id="legend"></div>
  </div>
- <footer>Fonte: Istat, indicatori di disagio socio-economico e di contesto socio-demografico per aree sub-comunali, 2023. Le classi sono quantili (ogni colore raccoglie circa lo stesso numero di aree). In grigio le aree senza dato. Le aree ADU23 sono aggregazioni di sezioni di censimento definite dall'Istat e coprono solo una parte della città (645 sezioni su 7.095): il resto è in grigio chiaro. Le sezioni di censimento sono unità molto piccole (in media circa 230 abitanti): i loro valori possono essere instabili. Il valore di riferimento è quello dell'intero comune di Milano. Mappa di base: © OpenStreetMap contributors © CARTO.</footer>
+ <footer>Fonte: Istat, indicatori di disagio socio-economico e di contesto socio-demografico per aree sub-comunali, 2023. Le classi sono quantili (ogni colore raccoglie circa lo stesso numero di aree). In grigio le aree senza dato. Le aree ADU23 sono aggregazioni di sezioni di censimento definite dall'Istat e coprono solo una parte della città (645 sezioni su 7.095): il resto è in grigio chiaro. Le sezioni di censimento sono unità molto piccole (in media circa 230 abitanti): i loro valori possono essere instabili. Il valore di riferimento è quello dell'intero comune di Milano. Mappa di base: © OpenStreetMap contributors.</footer>
 </div>
 <script>/* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
@@ -803,7 +811,7 @@ function ramp(v){const warm=(v==='IDISE'||v.startsWith('DIS'));let r=warm?RAMP_W
 // ---- map
 const LV={nil:{k:7,off:2},adu:{k:5,off:4},sez:{k:7,off:3}};
 const map=L.map('map',{zoomSnap:.25,zoomDelta:.5,minZoom:10,maxZoom:18,attributionControl:true});
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{subdomains:'abcd',maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> © <a href="https://carto.com/attributions">CARTO</a>'}).addTo(map);
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
 const IDX={nil:{},adu:{},sez:{}};['nil','adu','sez'].forEach(lv=>DATA[lv].keys.forEach((k,i)=>IDX[lv][k]=i));
 let layerNil,layerAdu,layerSez,layerCtx,layerOut,hot=null,byKey={nil:{},adu:{},sez:{}};
 map.createPane('out');map.getPane('out').style.zIndex=450;map.getPane('out').style.pointerEvents='none';
@@ -907,6 +915,27 @@ function choose(it){q.value=it.label;closeSug();q.blur();const l=byKey[level][it
 document.getElementById('reset').addEventListener('click',()=>{map.fitBounds(bounds,{padding:[10,10]});unhl();hide()});
 document.getElementById('reset').textContent='Tutta Milano';
 setBtn();renderLegend();fillSearch();
+// ---- embed mode (?embed=1): height reporting + scroll/touch passthrough
+(function(){
+ if(!document.documentElement.classList.contains('embed'))return;
+ var app=document.querySelector('.app'),hint=document.getElementById('hint'),mw=document.querySelector('.mapwrap');
+ var mac=/Mac|iPhone|iPad/.test(navigator.platform||navigator.userAgent);
+ hint.textContent=(mac?'\u2318':'Ctrl')+' + rotella per ingrandire';
+ var touch=('ontouchstart' in window)||navigator.maxTouchPoints>0,base=null,ht;
+ map.scrollWheelZoom.disable();
+ map.getContainer().addEventListener('wheel',function(e){
+  if(e.ctrlKey||e.metaKey){e.preventDefault();var z=map.getZoom()+(e.deltaY<0?0.5:-0.5);map.setZoomAround(map.mouseEventToContainerPoint(e),Math.max(map.getMinZoom(),Math.min(map.getMaxZoom(),z)))}
+  else if(!touch){hint.classList.add('on');clearTimeout(ht);ht=setTimeout(function(){hint.classList.remove('on')},1300)}
+ },{passive:false});
+ function upd(){if(!touch||base===null)return;if(map.getZoom()>base+0.2)map.dragging.enable();else map.dragging.disable()}
+ function fit(){map.invalidateSize();if(typeof IT!=='undefined')map.fitBounds(IT);else map.fitBounds(bounds,{padding:[10,10]});base=map.getZoom();upd()}
+ map.on('zoomend',upd);
+ function post(){var h=Math.ceil(app.getBoundingClientRect().height);parent.postMessage({type:'fq-embed-height',height:h},'*')}
+ if(window.ResizeObserver){new ResizeObserver(function(){map.invalidateSize();post()}).observe(mw);new ResizeObserver(post).observe(app)}
+ window.addEventListener('resize',function(){var at=base!==null&&Math.abs(map.getZoom()-base)<0.01;map.invalidateSize();if(at)fit();post()});
+ function go(){fit();post()}
+ post();setTimeout(go,100);setTimeout(go,600);window.addEventListener('load',function(){setTimeout(go,100)});
+})();
 </script>
 </body>
 </html>
