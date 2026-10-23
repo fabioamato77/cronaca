@@ -723,6 +723,7 @@ footer{padding:7px 14px 9px;font-size:11px;color:var(--mut);border-top:1px solid
 .sug.open{display:block}.sug li{padding:6px 10px;font-size:13px;cursor:pointer;line-height:1.3}.sug li:hover,.sug li.kb{background:#f3efe7}.sug li.hint{color:var(--mut);font-size:11.5px;cursor:default;background:#fff}
 .dd-list{overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
 .top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}.tt{min-width:0;flex:1 1 auto}.logo{flex:none;width:140px;height:auto;margin-top:-2px}@media(max-width:640px){.logo{width:92px}}@media(max-width:380px){.seg button{padding:8px 7px;font-size:12.5px}}
+.uns{display:none;align-items:center;gap:7px;border:1px solid #bdb8ad;border-radius:6px;background:var(--panel);padding:8px 11px;font:inherit;font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:left}.uns.show{display:inline-flex}.uns .bx{flex:none;width:15px;height:15px;border:1.5px solid #6b6a66;border-radius:3px;display:inline-flex;align-items:center;justify-content:center;font-size:11px;line-height:1;color:#fff}.uns[aria-pressed=true] .bx{background:var(--acc);border-color:var(--acc)}.uns small{font-weight:400;color:var(--mut)}
 html.embed,html.embed body{height:auto}
 html.embed .app{height:auto;min-height:0}
 html.embed .mapwrap{flex:none;min-height:0;height:clamp(440px,68vw,700px)}
@@ -739,6 +740,7 @@ html.embed .mapwrap{flex:none;min-height:0;height:clamp(440px,68vw,700px)}
   <p class="sub">Indicatori Istat 2023 · passa il mouse sull'area, zoom con rotellina o pulsanti</p></div><img class="logo" alt="il Fatto Quotidiano.it" src="data:image/png;base64,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"></div>
   <div class="controls">
    <div class="seg" role="group" aria-label="Livello territoriale"><button type="button" id="lvNil" class="on" aria-pressed="true">Quartieri (NIL)</button><button type="button" id="lvAdu" aria-pressed="false">Aree ADU23</button><button type="button" id="lvSez" aria-pressed="false">Sezioni</button></div>
+   <button type="button" class="uns" id="uns" aria-pressed="true"><span class="bx">✓</span><span>Escludi sezioni instabili <small>(meno di 30 residenti)</small></span></button>
    <div class="dd" id="dd">
     <button class="dd-btn" id="ddBtn" aria-haspopup="listbox" aria-expanded="false"><span class="code" id="curCode"></span><span class="nm" id="curName"></span></button>
     <ul class="dd-list" id="ddList" role="listbox" aria-label="Indicatore"></ul>
@@ -754,7 +756,7 @@ html.embed .mapwrap{flex:none;min-height:0;height:clamp(440px,68vw,700px)}
   <div class="hint" id="hint"></div>
   <div class="legend" id="legend"></div>
  </div>
- <footer>Fonte: Istat, indicatori di disagio socio-economico e di contesto socio-demografico per aree sub-comunali, 2023. Le classi sono quantili (ogni colore raccoglie circa lo stesso numero di aree). In grigio le aree senza dato. Le aree ADU23 sono aggregazioni di sezioni di censimento definite dall'Istat e coprono solo una parte della città (645 sezioni su 7.095): il resto è in grigio chiaro. Le sezioni di censimento sono unità molto piccole (in media circa 230 abitanti): i loro valori possono essere instabili. Il valore di riferimento è quello dell'intero comune di Milano. Mappa di base: © OpenStreetMap contributors.</footer>
+ <footer>Fonte: Istat, indicatori di disagio socio-economico e di contesto socio-demografico per aree sub-comunali, 2023. Le classi sono quantili (ogni colore raccoglie circa lo stesso numero di aree). In grigio le aree senza dato. Le aree ADU23 sono aggregazioni di sezioni di censimento definite dall'Istat e coprono solo una parte della città (645 sezioni su 7.095): il resto è in grigio chiaro. Le sezioni di censimento sono unità molto piccole (in media circa 230 abitanti): i loro valori possono essere instabili. Il valore di riferimento è quello dell'intero comune di Milano. <b>Nota sulle sezioni:</b> quelle con pochissimi residenti (anche 1 o 2) possono mostrare un disagio elevato anche in zone ricche. Gli indicatori sono percentuali e bastano uno o due casi per arrivare al 50% o al 100%; in più l'indice composito dell'Istat sale quando gli indicatori sono molto diversi tra loro. È un effetto statistico, non un dato di disagio reale: nei quartieri (NIL) e nelle aree ADU23 questi casi si compensano. Per questo, di default, le sezioni con meno di 30 residenti in famiglia sono escluse: il pulsante le include. Mappa di base: © OpenStreetMap contributors.</footer>
 </div>
 <script>/* @preserve
  * Leaflet 1.9.4, a JS library for interactive maps. https://leafletjs.com
@@ -800,7 +802,8 @@ const NA='#d6d3cc',CTX='#ececea';
 const VI={};DATA.vars.forEach((v,i)=>VI[v]=i);
 const nf=(v,d)=>v.toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
 const fmt=(v,x)=>nf(x,DATA.dec[v]);
-let level='nil',cur='IDISE';
+let level='nil',cur='IDISE',exUns=true;const UMIN=30;
+const isUns=i=>{const p=DATA.sez.recs[i][2];return p==null||p<UMIN};
 const L_=()=>DATA[level];
 const off=()=>({nil:2,adu:4,sez:3})[level];
 const NC=()=>({nil:7,adu:5,sez:7})[level];
@@ -816,7 +819,7 @@ const IDX={nil:{},adu:{},sez:{}};['nil','adu','sez'].forEach(lv=>DATA[lv].keys.f
 let layerNil,layerAdu,layerSez,layerCtx,layerOut,hot=null,byKey={nil:{},adu:{},sez:{}};
 map.createPane('out');map.getPane('out').style.zIndex=450;map.getPane('out').style.pointerEvents='none';
 const zw=()=>map.getZoom()>=13?1.4:1;
-function paint(lv,k,op,w,c){const i=IDX[lv][k];const cl=(level===lv&&i!=null)?classes()[i]:-1;return{fillColor:cl<0?NA:ramp(cur)[cl],fillOpacity:op,color:c||'#fff',weight:w,opacity:.95}}
+function paint(lv,k,op,w,c){const i=IDX[lv][k];const cl=(level===lv&&i!=null&&!(lv==='sez'&&exUns&&isUns(i)))?classes()[i]:-1;return{fillColor:cl<0?NA:ramp(cur)[cl],fillOpacity:op,color:c||'#fff',weight:w,opacity:.95}}
 const sNil=f=>paint('nil',String(f.properties.nil),.82,zw());
 const sAdu=f=>paint('adu',f.properties.adu,.88,zw()+.2);
 const sSez=f=>paint('sez',f.properties.c,.85,map.getZoom()>=15?.8:map.getZoom()>=13?.35:.12);
@@ -841,8 +844,9 @@ function show(lv,k,e){const D=DATA[lv],i=IDX[lv][k],r=D.recs[i],o=LV[lv].off;con
  let h;
  if(lv==='nil')h=`<div class="n">${r[0]}</div><div class="p">Quartiere (NIL) · ${r[1].toLocaleString('it-IT')} abitanti</div>`;
  else if(lv==='adu')h=`<div class="n">Area ADU23 n. ${r[0]}</div><div class="p">${r[1].toLocaleString('it-IT')} abitanti · ${r[2]} sezioni di censimento<br>Prevalentemente in: ${r[3]}</div>`;
- else h=`<div class="n">Sezione ${r[0]}</div><div class="p">${DATA.nn[r[1]]||''}${r[2]!=null?' · '+r[2].toLocaleString('it-IT')+' abitanti':''}</div>`;
- if(x==null)h+=`<div class="r">Dato non disponibile per quest'area.</div>`;
+ else h=`<div class="n">Sezione ${r[0]}</div><div class="p">${DATA.nn[r[1]]||''}${r[2]!=null?' · '+r[2].toLocaleString('it-IT')+' residenti in famiglia':''}</div>`;
+ if(lv==='sez'&&exUns&&isUns(i))h+=`<div class="r">Sezione esclusa: meno di ${UMIN} residenti, il valore è statisticamente instabile.</div>`;
+ else if(x==null)h+=`<div class="r">Dato non disponibile per quest'area.</div>`;
  else{h+=`<div><span class="v">${fmt(v,x)}</span> <span class="u">${m.u==='%'?'%':m.u}</span></div><div class="r">${m.n}</div>`;
   if(DATA.ref[v]!=null)h+=`<div class="r">Milano: <b>${fmt(v,DATA.ref[v])}${m.u==='%'?' %':''}</b></div>`}
  tip.innerHTML=h;tip.style.display='block';place(e)}
@@ -855,6 +859,7 @@ function renderLegend(){const v=cur,b=L_().breaks[v],rp=ramp(v),m=META[v],k=NC()
  for(let i=0;i<k;i++)h+=`<div class="row"><span class="sw" style="background:${rp[i]}"></span><span class="rg">${fmt(v,b[i])} – ${fmt(v,b[i+1])}</span></div>`;
  h+=`<div class="row na"><span class="sw" style="background:${NA}"></span><span>Dato non disponibile</span></div>`;
  if(level==='adu')h+=`<div class="row"><span class="sw" style="background:${CTX}"></span><span>Fuori dalle aree ADU23</span></div>`;
+ if(level==='sez'&&exUns)h+=`<div class="row na"><span class="sw" style="background:${NA}"></span><span>Escluse: meno di ${UMIN} residenti</span></div>`;
  if(DATA.ref[v]!=null)h+=`<div class="dir">Milano: <b>${fmt(v,DATA.ref[v])}</b></div>`;
  const dir=(v==='IDISE'||v.startsWith('DIS'))?(m.rev?'Più scuro = occupazione più bassa = più disagio':'Più scuro = più disagio'):'';
  if(dir)h+=`<div class="dir">${dir}</div>`;
@@ -880,6 +885,8 @@ btn.addEventListener('keydown',e=>{if(e.key==='Escape')close();
  if(e.key==='Enter'&&dd.classList.contains('open')&&kbi>=0){e.preventDefault();pickVar(opts[kbi].dataset.v);close()}});
 function pickVar(k){cur=k;setBtn();unhl();restyle();renderLegend();hide()}
 // ---- level toggle
+const UB=document.getElementById('uns');
+UB.addEventListener('click',()=>{exUns=!exUns;UB.setAttribute('aria-pressed',exUns);UB.querySelector('.bx').style.visibility=exUns?'visible':'hidden';unhl();hide();restyle();renderLegend()});
 const BTN={nil:document.getElementById('lvNil'),adu:document.getElementById('lvAdu'),sez:document.getElementById('lvSez')};
 function setLevel(lv){if(lv===level)return;level=lv;unhl();hide();
  Object.keys(BTN).forEach(k=>{BTN[k].classList.toggle('on',k===lv);BTN[k].setAttribute('aria-pressed',k===lv)});
@@ -887,6 +894,7 @@ function setLevel(lv){if(lv===level)return;level=lv;unhl();hide();
  if(lv==='nil')layerNil.addTo(map);
  else if(lv==='adu'){layerCtx.addTo(map);layerAdu.addTo(map)}
  else{layerSez.addTo(map);layerOut.addTo(map)}
+ UB.classList.toggle('show',lv==='sez');
  restyle();renderLegend();fillSearch();q.value='';closeSug()}
 Object.keys(BTN).forEach(k=>BTN[k].addEventListener('click',()=>setLevel(k)));
 // ---- search (custom, scrollable list)
